@@ -1,1 +1,5 @@
 -e .
+pytest
+flake8
+autopep8
+python-benedict

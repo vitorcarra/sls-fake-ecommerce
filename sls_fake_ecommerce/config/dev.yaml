@@ -1,0 +1,6 @@
+awsAccount: "527562940573"
+awsRegion: us-east-2
+
+network:
+  vpc:
+    cidr: 192.168.0.0/16

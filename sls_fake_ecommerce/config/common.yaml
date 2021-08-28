@@ -1,0 +1,54 @@
+# Common tags applied to all resources
+tags:
+  project-name: ecommerce-simulator
+
+name: ecommerce-simulator
+
+network:
+  vpc:
+    natGatewaySubnetName: snet-sls-ecommerce-public-01
+    maxAzs: 3
+    name: vpc-sls-ecommerce
+
+  subnets:
+    # Private subnet
+    - cidrMask: 24
+      name: snet-sls-ecommerce-private-01
+      subnetType: PRIVATE
+    # Data subnet
+    - cidrMask: 24
+      name: snet-sls-ecommerce-private-02
+      subnetType: PRIVATE
+
+    # Public subnet
+    - cidrMask: 24
+      name: snet-sls-ecommerce-public-01
+      subnetType: PUBLIC
+
+    - cidrMask: 24
+      name: snet-sls-ecommerce-public-02
+      subnetType: PUBLIC
+
+
+data:
+  rds:
+    domainName: cdk-template
+    version: "7.9"
+    capacity:
+      masterNodes:
+        instanceType: m5.large.elasticsearch
+        count: 3
+      dataNodes:
+        instanceType: c5.xlarge.elasticsearch
+        count: 3
+    ebs:
+      volumeSize: 32
+    zoneAwareness:
+      enabled: true
+      count: 3
+    subnetGroupName: Data
+    logging:
+      appLogEnabled: true
+      auditLogEnabled: true
+      slowIndexLogEnabled: true
+      slowIearchLogEnabled: true
