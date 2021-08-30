@@ -11,7 +11,7 @@ from .security_group import SecurityGourp
 
 class NetworkStack(core.Stack):
     vpc: ec2.IVpc
-    es_sg_id: str
+    rds_sg_id: str
 
     def __init__(self, scope: core.Construct, id: str, config: Dict, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
@@ -19,8 +19,8 @@ class NetworkStack(core.Stack):
         # Apply common tags to stack resources.
         add_tags_to_stack(self, config)
 
-        vpcConstruct = Vpc(self, 'Vpc', config)
+        vpcConstruct = Vpc(self, 'vpc', config)
         self.vpc = vpcConstruct.vpc
 
         sg = SecurityGourp(self, "SecurityGroups", self.vpc)
-        self.es_sg_id = sg.es_sg.security_group_id
+        self.rds_sg_id = sg.rds_sg.security_group_id

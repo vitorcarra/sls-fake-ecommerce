@@ -1,8 +1,7 @@
 LOCAL_VENV_NAME=.venv
 PYTHON=python3
 STAGE?=dev
-STACKS?=NetworkStack
-
+STACKS?=NetworkStack DataStack
 
 .PHONY: all test lint synth diff deploy
 

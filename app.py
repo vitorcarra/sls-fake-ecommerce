@@ -5,7 +5,7 @@ from aws_cdk import core
 
 from sls_fake_ecommerce.network.network_stack import NetworkStack
 #from stacks.compute_stack.compute_stack import ComputeStack
-#from stacks.data_stack.data_stack import DataStack
+from sls_fake_ecommerce.database.data_stack import DataStack
 from utils import config_util
 
 app = core.App()
@@ -28,20 +28,12 @@ network_stack = NetworkStack(app,
                              env=env
                              )
 
-# ComputeStack(app,
-#              "ComputeStack",
-#              config=config,
-#              vpc=network_stack.vpc,
-#              es_sg_id=network_stack.es_sg_id,
-#              env=env
-#              )
-
-# DataStack(app,
-#           "DataStack",
-#           config=config,
-#           vpc=network_stack.vpc,
-#           es_sg_id=network_stack.es_sg_id,
-#           env=env
-#           )
+DataStack(app,
+             "DataStack",
+             config=config,
+             vpc=network_stack.vpc,
+             rds_sg_id=network_stack.rds_sg_id,
+             env=env
+             )
 
 app.synth()
