@@ -19,14 +19,10 @@ class PostgresRds(core.Construct):
         rds.DatabaseInstance(
             scope=self, 
             id="RDS",
-            database_name="ecommercedb",
+            database_name=self.config['data']['rds']['dbname'],
             engine=rds.DatabaseInstanceEngine.postgres(
                 version=rds.PostgresEngineVersion.VER_13_3
             ),
-            # vpc=ec2.Vpc.from_vpc_attributes(
-            #     id=self.vpc.vpc_id,
-            #     scope=self
-            # ),
             vpc=self.vpc,
             vpc_subnets={
                 "subnet_type": ec2.SubnetType.PRIVATE
@@ -40,6 +36,12 @@ class PostgresRds(core.Construct):
             deletion_protection=False,
             allocated_storage=20,
             max_allocated_storage=30,
-            credentials=rds.Credentials.from_generated_secret("postgres"),
-            publicly_accessible=False
-        )
+            credentials=rds.Credentials.from_username(
+                username=self.config['data']['rds']['dbadmin'],
+                exclude_characters='"@/\\;"',
+                secret_name="rds-admin-password"
+            ),
+            publicly_accessible=False,
+            iam_authentication=True,
+            backup_retention=core.Duration.days(3),
+        ).connections.allow_internally(ec2.Port.all_tcp(), 'All traffic within SG')

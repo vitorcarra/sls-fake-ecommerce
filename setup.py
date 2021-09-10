@@ -19,7 +19,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="sls_fake_ecommerce"),
 
     install_requires=[
-        "aws-cdk.core==1.120.0",
+        "aws-cdk.core",
     ],
 
     python_requires=">=3.6",

@@ -34,6 +34,6 @@ DataStack(app,
              vpc=network_stack.vpc,
              rds_sg_id=network_stack.rds_sg_id,
              env=env
-             )
+        )
 
 app.synth()
